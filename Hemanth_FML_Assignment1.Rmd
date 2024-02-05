@@ -1,0 +1,130 @@
+---
+title: "FML_Assignment_1"
+author: "Hemanth"
+date: "2024-02-04"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+Source-https://ocw.mit.edu/courses/15-097-prediction-machine-learning-and-statistics-spring-2012/resources/iris/.Downloaded the file from the above source.Imported the file from the local machine through the below path.The below data has total of 5 variables with 4 quantitative variables and one categorical variable.
+```{r}
+
+data = read.csv("C:\\Users\\mail8\\Desktop\\iris.csv", header = TRUE)
+data
+```
+Named the columns to below names.
+sepal_length,sepal_width,petal_length,petal_width are quantitative variables 
+while target variable is categorical ones.
+```{r}
+colnames(data) <- c("sepal_length", "sepal_width","petal_length","petal_width","target")
+data
+```
+Descriptive statistics 
+Summary Statistics: For numerical data, the summary() function in R offers a brief summary of the statistical measures, including minimum, first quartile, median, mean, third quartile, and maximum.
+
+```{r}
+summary(data[1:4])
+```
+Interpretation-The minimum length of the sepal is 4.3 cm while maximum is 7.9 cm.
+1st Quartile generally called as Q1 indicates that 25 percent of values in that variable fall under the value indicated by 1st quartile.Here 1st quarter 5.1 cm indicates that 25 percent of values are below 5.1 cm.
+Median-Median indicates the middle value when a particular variable is divided into two halves in ascending or descending. Here it is 5.8 which is the middle value.
+Mean-Mean indicates the average of the data values in that variable.
+3rd quartile often named as Q3 indicate that 75 percent of values in that variable fall below that particular value indicated by Q3 value.Here it is 6.4 indicates that 75% of sepal_length values fall below 6.4 cm.
+
+Variance-It indicates the extent to which the variable numbers differ from its mean value.
+Range indicates the difference of the maximum and minimum values.Standard deviation is square root of variance.
+
+```{r}
+for (variable in names(data)) {
+  cat("Descriptive Statistics for", variable, ":\n")
+  if (is.numeric(data[[variable]])) {
+    # If the variable is numeric, print descriptive statistics
+    print(summary(data[[variable]]))
+    cat("Variance of", variable, ":", var(data[[variable]]), "\n")
+    cat("Standard Deviation of", variable, ":", sd(data[[variable]]), "\n")
+    cat("Range of", variable, ":", range(data[[variable]]), "\n\n")
+  }  else {
+    cat("As target variable is categorical ones please scroll down for summary of target variable")
+  }
+}
+
+```
+
+
+For categorical variables, descriptive statistics usually include measures of proportion and frequency (counts). For more complex data processing in R, you can utilize packages like dplyr and functions like table() and summary(). This is how category variables can be used to create descriptive statistics.
+
+```{r}
+# Frequency table
+target_variable_table <- table(data$target)
+target_variable_table
+
+```
+```{r}
+# Proportions
+table = prop.table(table(data$target))
+table
+```
+In R, a variable can be transformed to improve its fit for analysis or modeling by changing its size or distribution. For numerical variables, common transformations include logarithmic, square root.
+
+```{r}
+
+for (variable in names(data)) {
+  if (is.numeric(data[[variable]])) {
+    # If the variable is numeric, print logarithmic and square root
+    cat("Logarithmic Transformation for", variable, ":\n")
+    print(log_variable <- log(data[[variable]]))
+    cat("Square Transformation for", variable, ":\n")
+    print(square_variable <- sqrt(data[[variable]]))
+  }
+}
+
+```
+Histogram is used for data visualization.Here Histogram is created for sepal length.
+
+```{r}
+data1=data$sepal_length
+# Create a histogram with base R
+hist(data1, main = "Histogram of sepal_width", xlab = "Sepal_width", 
+ylab = "Frequency", col = "lightblue", border = "black")
+
+```
+Creating box plot for all quantitative variables.
+A box plot is a pictorial representation of a distribution of a variable.
+Minimum, Maximum, Median, Lower Quartile and Upper Quartile.
+The line inside the container addresses the middle (50th percentile) of the dataset.
+The base and top of the case address the first (Q1) and third (Q3) quartiles, separately.
+The upper and lower whiskers address scores outside the center half (i.e., the lower 25% of scores and the upper 25% of scores).
+IQR-The box in the box plot shows the middle 50% of scores (i.e., the range between the 25th and 75th percentile).
+Outliers are points outside the range of the whiskers and are plotted individually.
+```{r}
+boxplot(data$sepal_length,data$sepal_width,data$petal_length,data$petal_width,
+        main = "Box_Plot",
+        col="orange",ylab="units in cm's",
+  names = c("sepal_length", "sepal_width", "petal_length", "petal_width"))
+```
+Scatter plot provides the relationship between  two quantitative variables.Here it provides relationship between sepal_length and sepal_width.
+
+```{r}
+plot(data$sepal_length, data$sepal_width,
+    xlab = "sepal_length",
+    ylab = "sepal_width",
+    main = "sepal_length vs sepal_width"
+)
+```
+
+
+
+
